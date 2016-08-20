@@ -1,0 +1,8 @@
+package br.com.fiap.jersey.ws;
+
+import javax.ws.rs.Path;
+
+@Path("captura")
+public class CapturaWs {
+
+}

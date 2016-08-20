@@ -1,0 +1,36 @@
+package br.com.fiap.dao;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import br.com.fiap.captura.to.CapturaTO;
+
+public class CapturaDAO {
+	
+	static HashMap<String, CapturaTO> CapturaMap = getCapturaTOMap();
+			
+    public CapturaDAO(){
+    	super();
+    	
+    	if(CapturaMap == null){
+    		CapturaMap = new HashMap<String,CapturaTO>();
+    		CapturaTO cap = new CapturaTO(22,22,22,"1999","1","myDevice");
+    		CapturaMap.put("9999",cap);
+    	}
+    }
+	 
+    public List<CapturaTO> getAllCapturas(){
+    	List<CapturaTO> capturas = new ArrayList<CapturaTO>(CapturaMap.values());
+    	return capturas;
+    }
+    
+    public CapturaTO getCapturaTO(String id){
+    	CapturaTO cap = CapturaMap.get(id);
+    	return cap;
+    }
+    
+    public CapturaTO addCapturaTo(CapturaTO cap){
+    	cap.set_id(Integer.toString(CapturaMap.size()+1));
+    	
+    }
+}

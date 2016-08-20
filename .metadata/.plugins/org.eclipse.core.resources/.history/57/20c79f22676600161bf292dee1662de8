@@ -1,0 +1,21 @@
+package br.com.fiap.jersey.ws;
+
+import java.util.List;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+
+import br.com.fiap.captura.to.CapturaTO;
+
+@Path("captura")
+public class CapturaWs {
+
+	@GET
+	@Produces(MediaType.TEXT_PLAIN)
+	public List<CapturaTO> getCapturas(){		
+		List<CapturaTO> listCapturas = CapturaDAO.getAllCapturas();
+		return listCapturas;
+	}
+}
