@@ -1,0 +1,52 @@
+package br.com.fiap.filter;
+
+import java.io.IOException;
+
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class RestAuthenticationFilter implements javax.servlet.Filter{
+
+	@Override
+	public void destroy() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterchain)
+			throws IOException, ServletException {
+		// TODO Auto-generated method stub
+		if(request instanceof HttpServletRequest){
+			HttpServletRequest httpServletRequest = (HttpServletRequest)request;
+			String authCredentials = httpServletRequest.getHeader("AUTHENTICATION_HEADER");
+			
+			AuthenticationService authenticationService = new AuthenticationService();
+			boolean authStatus = authenticationService.authenticate(authCredentials);
+			
+			if(authStatus){
+				filterchain.doFilter(request, response);
+			}else{
+			   	if(response instanceof HttpServletResponse){
+			   		HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+			   		httpServletResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+			   		httpServletResponse.getWriter().write("UNAUTHORIZED");
+			   		httpServletResponse.getWriter().flush();
+			   		httpServletResponse.getWriter().close();
+			   	}
+			}
+		}
+	}
+
+	@Override
+	public void init(FilterConfig arg0) throws ServletException {
+		// TODO Auto-generated method stub
+		
+	}	
+
+}
